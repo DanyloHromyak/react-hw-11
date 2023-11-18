@@ -12,15 +12,14 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Trending Today</h1>
+    <div className="px-3 py-2">
+      <h1 className="text-2xl font-semibold">Trending Today</h1>
       <ul>
-        {
-          movies.map(movie => (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-            </li>
-          ))}
+        {movies.map(movie => (
+          <li key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
