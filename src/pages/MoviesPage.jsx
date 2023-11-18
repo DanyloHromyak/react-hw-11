@@ -1,19 +1,21 @@
 import { useQuery } from "react-query";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getSearchingMovies } from "../services/getSearchingMovies";
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState("");
-  const [submittedQuery, setSubmittedQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
 
-  const { data, isLoading } = useQuery(["searchMovies", submittedQuery], () =>
-    getSearchingMovies(submittedQuery), { enabled: !!submittedQuery }
+  const { data, isLoading } = useQuery(
+    ["searchMovies", query],
+    () => getSearchingMovies(query),
+    { enabled: !!query }
   );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    setSubmittedQuery(query);
+    setSearchParams({ query: e.target.elements.query.value });
   };
 
   return (
@@ -22,8 +24,7 @@ const MoviesPage = () => {
         type="search"
         name="query"
         placeholder="Search shows by title"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
+        defaultValue={query}
         autoComplete="off"
         className="border-2 border-gray-950 p-1 mr-2"
       />
@@ -41,4 +42,5 @@ const MoviesPage = () => {
     </form>
   );
 };
+
 export default MoviesPage;
